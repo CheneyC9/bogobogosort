@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class App {
+    private static final Random RNG = new Random();
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void sort(int[] array, int n) {
+        if (n <= 1) return;
+        int iterations = 0;
+        while (true) {
+            iterations++;
+            System.out.printf("\nSorting first %d numbers, iteration %d:\n", n, iterations);
+            sort(array, n - 1);
+            System.out.println("Working on size " + n + ": " + Arrays.toString(array));
+            if (sorted(array, n)) {
+                System.out.println("Array is sorted!");
+                return;
+            }
+            System.out.println("Not sorted, shuffling...");
+            shuffle(array, n);
+        }
+    }
+
+    public static boolean sorted(int[] array, int n) {
+        for (int i = 0; i < n - 1; i++) {
+            if (array[i] > array[i + 1]) return false;
+        }
+        return true;
+    }
+
+    public static void shuffle(int[] array, int n) {
+        System.out.println("Shuffling array...");
+        for (int i = n - 1; i > 0; i--) {
+            int j = RNG.nextInt(n);  
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            System.out.println("After swap: " + Arrays.toString(array));
+        }
+    }
+    public static void main(String[] args) {
+        System.out.print("How many numbers: ");
+        int n = scanner.nextInt();
+        int[] array = new int[n];
+
+        System.out.println("\nGenerating array:");
+        for (int i = 0; i < n; i++) {
+            array[i] = RNG.nextInt(9) + 1;
+            System.out.printf("Iteration %d: ", i + 1);
+            System.out.println(Arrays.toString(array));
+        }
+
+        System.out.println("\nFinal array:");
+        System.out.println(Arrays.toString(array));
+        
+        System.out.println("\nStarting sort...");
+        sort(array, n);
+        System.out.println("\nSorted array:");
+        System.out.println(Arrays.toString(array));
+    }
+}
